@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ButtonSignin from "@/components/ButtonSignin";
 
 const navLinks = [
   { href: "#services", label: "Services" },
@@ -43,9 +44,7 @@ const AgencyNavbar = () => {
 
             {/* CTA Button */}
             <div className="hidden md:block">
-              <Link href="#contact" className="btn-primary-gn">
-                Get Started
-              </Link>
+              <ButtonSignin extraStyle="!px-5 !py-2 !rounded-full !border !border-white/15 !bg-white/5 hover:!bg-white/10 hover:!border-white/25" />
             </div>
 
             {/* Mobile Menu Button */}
@@ -103,13 +102,9 @@ const AgencyNavbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="#contact"
-                className="block btn-primary-gn text-center mt-4"
-                onClick={() => setIsOpen(false)}
-              >
-                Get Started
-              </Link>
+              <div className="pt-2">
+                <ButtonSignin extraStyle="w-full !justify-center !px-5 !py-2.5 !rounded-full !border !border-white/15 !bg-white/5 hover:!bg-white/10 hover:!border-white/25" />
+              </div>
             </div>
           </div>
         )}

@@ -18,7 +18,7 @@ const ButtonSignin = ({ extraStyle }) => {
     if (status === "authenticated") {
       router.push(config.auth.callbackUrl);
     } else {
-      signIn(undefined, { callbackUrl: config.auth.callbackUrl });
+      signIn("google", { callbackUrl: config.auth.callbackUrl });
     }
   };
 

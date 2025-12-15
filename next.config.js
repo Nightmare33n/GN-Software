@@ -1,14 +1,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      // NextJS <Image> component needs to whitelist domains for src={}
-      "lh3.googleusercontent.com",
-      "pbs.twimg.com",
-      "images.unsplash.com",
-      "images.pexels.com",
-      "cdn.simpleicons.org",
-      "logos-world.net",
+    remotePatterns: [
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      { protocol: "https", hostname: "pbs.twimg.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "cdn.simpleicons.org" },
+      { protocol: "https", hostname: "logos-world.net" },
     ],
   },
 };

@@ -89,7 +89,27 @@ const config = {
     // REQUIRED — the path to log in users. It's use to protect private routes (like /dashboard). It's used in apiClient (/libs/api.js) upon 401 errors from our API
     loginUrl: "/api/auth/signin",
     // REQUIRED — the path you want to redirect users after successfull login (i.e. /dashboard, /private). This is normally a private page for users to manage their accounts. It's used in apiClient (/libs/api.js) upon 401 errors from our API & in ButtonSignin.js
-    callbackUrl: "/",
+    callbackUrl: "/dashboard",
+  },
+  // Gig categories for freelance marketplace
+  categories: [
+    { value: 'web-development', label: 'Web Development' },
+    { value: 'mobile-development', label: 'Mobile Development' },
+    { value: 'design', label: 'Design' },
+    { value: 'writing', label: 'Writing' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'video', label: 'Video & Animation' },
+    { value: 'other', label: 'Other' },
+  ],
+  // Socket.io configuration for real-time chat
+  socket: {
+    url: process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000',
+  },
+  // File upload configuration
+  upload: {
+    maxFileSize: 10485760, // 10MB in bytes
+    allowedTypes: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+    allowedImageTypes: ['image/jpeg', 'image/png', 'image/webp'],
   },
 };
 

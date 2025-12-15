@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import config from "@/config";
 
 const navLinks = [
   { href: "#services", label: "Services" },

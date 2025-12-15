@@ -19,8 +19,7 @@ const AgencyHero = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h1 className="text-5xl lg:text-7xl font-[ui-serif] font-bold leading-tight mb-6">
-              Building Tomorrow's{" "}
-              <span className="text-gradient">Digital Solutions</span>
+              Building Tomorrow&apos;s <span className="text-gradient">Digital Solutions</span>
             </h1>
 
             <p className="text-lg lg:text-xl text-white/80 mb-8 max-w-2xl">

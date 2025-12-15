@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import BrandCarousel from "@/components/BrandCarousel";
 
 const AgencyHero = () => {
@@ -9,8 +12,13 @@ const AgencyHero = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left Column - Text Content */}
-          <div className="flex-1 text-center lg:text-left">
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+          <motion.div
+            className="flex-1 text-center lg:text-left"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <h1 className="text-5xl lg:text-7xl font-[ui-serif] font-bold leading-tight mb-6">
               Building Tomorrow's{" "}
               <span className="text-gradient">Digital Solutions</span>
             </h1>
@@ -28,24 +36,29 @@ const AgencyHero = () => {
                 View Our Work
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column - Hero Image */}
-          <div className="flex-1 w-full max-w-lg lg:max-w-none">
-            <div className="relative aspect-square lg:aspect-auto lg:h-[500px] overflow-hidden rounded-2xl border border-gn-cyan/20 card-glow">
+          <motion.div
+            className="flex-1 w-full max-w-lg lg:max-w-none"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 }}
+          >
+            <div className="relative aspect-square lg:aspect-auto lg:h-[500px] overflow-hidden rounded-2xl">
               <Image
-                src="https://images.pexels.com/photos/3137055/pexels-photo-3137055.jpeg"
-                alt="Abstract technology wallpaper"
+                src="/HeroImg.jpg"
+                alt="Team collaborating on technology"
                 fill
                 priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-fill"
+                className="object-cover"
               />
 
               {/* Subtle gradient overlay for readability */}
               <div className="absolute inset-0 bg-gradient-to-br from-gn-black/40 via-transparent to-gn-black/60" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
       {/* AgencyHero END */}

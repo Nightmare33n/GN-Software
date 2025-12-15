@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import LearnMoreButton from "@/components/LearnMoreButton";
+
 const services = [
   {
     title: "Web Development",
@@ -6,10 +12,11 @@ const services = [
     hasImage: false,
   },
   {
-    title: "Mobile Apps",
+    title: "Android Mobile Apps",
     description:
-      "Cross-platform mobile solutions that deliver native-like experiences",
-    hasImage: false,
+      "Android mobile solutions that deliver native-like experiences",
+    hasImage: true,
+    imageUrl: "/AndroidAppDevGig.png",
   },
   {
     title: "Minecraft Mods & Plugins",
@@ -21,8 +28,9 @@ const services = [
   {
     title: "Minecraft Mods & Datapacks",
     description:
-      "User-centered design that prioritizes accessibility and engagement",
-    hasImage: false,
+      "Custom datapacks and modding setups tailored for your worlds and servers",
+    hasImage: true,
+    imageUrl: "/GigNightmare.jpg",
   },
   {
     title: "API Development",
@@ -39,24 +47,61 @@ const services = [
 ];
 
 const AgencyServices = () => {
+  const hoverSoundRef = useRef(null);
+  const lastPlayedRef = useRef(0);
+
+  useEffect(() => {
+    const audio = new Audio("/sounds/interface-soft-click-131438.mp3");
+    audio.volume = 0.35;
+    hoverSoundRef.current = audio;
+    return () => {
+      audio.pause();
+    };
+  }, []);
+
+  const playHoverSound = () => {
+    const audio = hoverSoundRef.current;
+    if (!audio) return;
+
+    const now = performance.now();
+    if (now - lastPlayedRef.current < 200) return; // 0.2s cooldown
+    lastPlayedRef.current = now;
+
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+  };
+
   return (
     <>
       {/* AgencyServices START */}
       <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl lg:text-6xl font-bold mb-4">
             Our <span className="text-gradient">Services</span>
           </h2>
           <p className="text-lg text-white/60 max-w-2xl mx-auto">
             Comprehensive software solutions tailored to your business needs
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => (
-            <div
+            <motion.div
               key={index}
               className="relative overflow-hidden rounded-2xl border border-neutral/20 transition-all duration-500 group cursor-pointer h-[400px]"
+              onMouseEnter={playHoverSound}
+              onFocus={playHoverSound}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
+              whileHover={{ scale: 1.01 }}
             >
               {/* Background Image or Placeholder */}
               {service.hasImage ? (
@@ -91,25 +136,11 @@ const AgencyServices = () => {
                 </p>
 
                 {/* Hover indicator */}
-                <div className="mt-6 flex items-center gap-2 text-gn-cyan opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <span className="text-sm font-semibold">Learn More</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                <div className="mt-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                  <LearnMoreButton />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>

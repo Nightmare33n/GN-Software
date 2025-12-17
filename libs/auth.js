@@ -3,6 +3,11 @@ import { authOptions } from "./next-auth";
 import User from "@/models/User";
 import connectMongo from "./mongoose";
 
+const ALLOWED_ADMIN_EMAILS = [
+  "andreaguirre007@gmail.com",
+  "gabriel64hd@gmail.com",
+];
+
 /**
  * Get the currently authenticated user from the session
  * @throws {Error} if user is not authenticated or not found
@@ -33,7 +38,7 @@ export async function getAuthenticatedUser() {
 export async function requireFreelancer() {
   const user = await getAuthenticatedUser();
 
-  if (!user.canCreateGigs()) {
+  if (!user.canCreateGigs() && !ALLOWED_ADMIN_EMAILS.includes(user.email)) {
     throw new Error('Freelancer or admin access required');
   }
 
@@ -48,7 +53,7 @@ export async function requireFreelancer() {
 export async function requireAdmin() {
   const user = await getAuthenticatedUser();
 
-  if (user.role !== 'admin') {
+  if (user.role !== 'admin' && !ALLOWED_ADMIN_EMAILS.includes(user.email)) {
     throw new Error('Admin access required');
   }
 

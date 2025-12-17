@@ -43,6 +43,8 @@
   - `GET/POST /api/gigs` - Listar con filtros/crear
   - `GET/PATCH/DELETE /api/gigs/[id]` - Ver/editar/borrar
   - `POST /api/gigs/[id]/order` - Crear orden (sin pago, crea conversación automáticamente)
+  - `POST /api/gigs/seed?token=SEED_TOKEN` - Seed seguro con gigs de demo y freelancer por defecto
+  - `node scripts/seedCloudinaryGigs.js` - Sube imágenes locales a Cloudinary y actualiza gigs con secure_url/publicId
 
 - ✅ **Upload de Archivos**
   - `POST /api/upload` - Sube a `public/uploads/` (local storage MVP)
@@ -159,6 +161,8 @@ MONGODB_URI=tu-mongodb-uri
 GOOGLE_ID=tu-google-client-id
 GOOGLE_SECRET=tu-google-client-secret
 NEXT_PUBLIC_SOCKET_URL=http://localhost:3000
+SEED_TOKEN=coloca-un-token-seguro
+SEED_FREELANCER_EMAIL=seed@gnsoftware.dev # opcional
 ```
 
 ### 2. Ejecutar Migración
@@ -176,6 +180,14 @@ npm run dev
 ```
 
 El servidor estará en: `http://localhost:3000`
+
+### 3b. Seed de Gigs de Demo
+
+```bash
+curl -X POST "http://localhost:3000/api/gigs/seed?token=$SEED_TOKEN"
+```
+
+El seed crea/actualiza gigs de todas las categorías y garantiza un usuario freelancer activo (usa `SEED_FREELANCER_EMAIL` si existe).
 
 ---
 

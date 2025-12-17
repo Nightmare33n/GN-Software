@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
 
 // CUSTOM OFFER SCHEMA
 const customOfferSchema = mongoose.Schema(

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function GigCard({ gig }) {
   return (
-    <Link href={`/gigs/${gig._id}`} className="block">
+    <Link href={`/gigs/${gig._id}`} className="block cursor-pointer">
       {/* GigCard START */}
       <div className="card bg-base-200 hover:shadow-xl transition-all duration-300 h-full">
         {/* Image */}
@@ -15,6 +15,7 @@ export default function GigCard({ gig }) {
               src={gig.images[0].url}
               alt={gig.title}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
               className="object-cover"
             />
           ) : (

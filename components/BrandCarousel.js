@@ -35,31 +35,65 @@ const logos = [
 ];
 
 const BrandCarousel = () => {
+  const theme = {
+    text: "var(--text)",
+    muted: "var(--muted)",
+    card: "var(--card)",
+    border: "var(--border)",
+    bg: "var(--bg)",
+  };
+
   return (
     <section className="py-12">
       <div className="mx-auto max-w-6xl space-y-6 px-4 sm:px-6 lg:px-0">
-        <div className="flex flex-wrap items-center gap-3 text-white/70">
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
+        <div className="flex flex-wrap items-center gap-3" style={{ color: theme.muted }}>
+          <span
+            className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]"
+            style={{
+              border: `1px solid ${theme.border}`,
+              background: theme.card,
+              color: theme.text,
+            }}
+          >
             Tech we support
           </span>
-          <p className="text-sm sm:text-base text-white/70">
+          <p className="text-sm sm:text-base" style={{ color: theme.muted }}>
             Frameworks and runtimes we build and optimize for.
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
+        <div
+          className="relative overflow-hidden rounded-2xl backdrop-blur"
+          style={{
+            border: `1px solid ${theme.border}`,
+            background: theme.card,
+          }}
+        >
           {/* edge fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-gn-dark to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-gn-dark to-transparent" />
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-28"
+            style={{ background: `linear-gradient(to right, ${theme.bg}, transparent)` }}
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-28"
+            style={{ background: `linear-gradient(to left, ${theme.bg}, transparent)` }}
+          />
 
           <div className="marquee">
             <div className="marquee-track">
               {[...logos, ...logos].map((item, index) => (
                 <div
                   key={`${item.name}-${index}`}
-                  className="flex items-center gap-3 px-8 py-5 text-white shrink-0"
+                  className="flex shrink-0 items-center gap-3 px-8 py-5"
                 >
-                  <div className="relative h-14 w-14 overflow-hidden rounded-full border border-white/20 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+                  <div
+                    className="relative h-14 w-14 overflow-hidden rounded-full"
+                    style={{
+                      border: `1px solid ${theme.border}`,
+                      background: theme.bg,
+                      boxShadow: `0 0 0 1px ${theme.border}`,
+                    }}
+                  >
                     {item.imageSrc ? (
                       <Image
                         src={item.imageSrc}
@@ -73,8 +107,15 @@ const BrandCarousel = () => {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold leading-tight">{item.name}</span>
-                    <span className="text-xs text-white/50">Performance-ready builds</span>
+                    <span
+                      className="text-sm font-semibold leading-tight"
+                      style={{ color: theme.text }}
+                    >
+                      {item.name}
+                    </span>
+                    <span className="text-xs" style={{ color: theme.muted }}>
+                      Performance-ready builds
+                    </span>
                   </div>
                 </div>
               ))}

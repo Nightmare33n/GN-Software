@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
 
 // Package sub-schema (for basic, standard, premium tiers)
 const packageSchema = mongoose.Schema({
@@ -63,6 +63,7 @@ const gigSchema = mongoose.Schema(
         type: String,
         required: true,
       },
+      publicId: String, // Optional: Cloudinary public_id
       key: String, // For AWS S3 deletion
     }],
     packages: {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
 
 // CONVERSATION SCHEMA
 const conversationSchema = mongoose.Schema(

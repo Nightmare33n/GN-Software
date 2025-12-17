@@ -9,7 +9,10 @@ const services = [
     title: "Web Development",
     description:
       "Custom web applications built with modern frameworks like React, Next.js, and Node.js",
-    hasImage: false,
+    hasImage: true,
+    imageUrl: "/webgig.jpg",
+    backgroundPosition: "90% center",
+    scale: 1,
   },
   {
     title: "Android Mobile Apps",
@@ -17,6 +20,13 @@ const services = [
       "Android mobile solutions that deliver native-like experiences",
     hasImage: true,
     imageUrl: "/AndroidAppDevGig.png",
+  },
+  {
+    title: "Desktop Apps",
+    description:
+      "Cross-platform desktop applications built with modern stacks for speed and reliability",
+    hasImage: false,
+    fullWidth: true,
   },
   {
     title: "Minecraft Mods & Plugins",
@@ -33,16 +43,18 @@ const services = [
     imageUrl: "/GigNightmare.jpg",
   },
   {
-    title: "API Development",
+    title: "Minecraft Textures & 3D Models",
     description:
-      "RESTful and GraphQL APIs designed for performance and reliability",
-    hasImage: false,
+      "Design of optimized Minecraft textures and 3D models, ready to plug into your worlds and servers",
+    hasImage: true,
+    imageUrl: "/GigTexture3DModel.png",
   },
   {
-    title: "Technical Consulting",
+    title: "Minecraft Websites & Consulting",
     description:
-      "Strategic guidance to help your team make informed technology decisions",
-    hasImage: false,
+      "Landing pages and portals for Minecraft communities with end-to-end technical consulting",
+    hasImage: true,
+    imageUrl: "/GigMinecraftWebsiteCover.jpg",
   },
 ];
 
@@ -94,7 +106,7 @@ const AgencyServices = () => {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="relative overflow-hidden rounded-2xl border border-neutral/20 transition-all duration-500 group cursor-pointer h-[400px]"
+              className={`relative overflow-hidden rounded-2xl border border-neutral/20 transition-all duration-500 group cursor-pointer h-[400px] ${service.fullWidth ? 'md:col-span-2' : ''}`}
               onMouseEnter={playHoverSound}
               onFocus={playHoverSound}
               initial={{ opacity: 0, y: 24 }}
@@ -106,13 +118,15 @@ const AgencyServices = () => {
               {/* Background Image or Placeholder */}
               {service.hasImage ? (
                 <div
-                  className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-700 [transform:scale(var(--base-scale,1))] group-hover:[transform:scale(calc(var(--base-scale,1)*1.1))] group-hover:rotate-2"
                   style={{
                     backgroundImage: `url(${service.imageUrl})`,
+                    backgroundPosition: service.backgroundPosition || "center",
+                    "--base-scale": service.scale || 1,
                   }}
                 >
                   {/* Overlay with opacity effect */}
-                  <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-all duration-500"></div>
+                  <div className="absolute inset-0 bg-transparent group-hover:bg-transparent transition-all duration-500"></div>
                 </div>
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-gn-dark via-gn-black to-gn-dark transition-all duration-700 group-hover:scale-105">
@@ -123,21 +137,36 @@ const AgencyServices = () => {
                 </div>
               )}
 
-              {/* Content - Superpuesto sobre la imagen */}
-              <div className="relative z-10 h-full flex flex-col justify-end p-8">
-                {/* Title */}
-                <h3 className="text-3xl font-bold mb-4 text-white transition-colors duration-300">
-                  {service.title}
-                </h3>
+              {/* Content panel with glassy hover reveal */}
+              <div className="relative z-10 h-full">
+                <div className="absolute inset-x-0 bottom-0">
+                  <div className="w-full rounded-t-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.35)] transition-all duration-500 translate-y-[120%] group-hover:translate-y-0">
+                    <div className="p-6 md:p-7">
+                      <h3
+                        className="text-3xl font-bold mb-3 transition-colors duration-300"
+                        style={{
+                          color: "#ffffff",
+                          textShadow: "0 2px 12px rgba(0,0,0,0.55)",
+                        }}
+                      >
+                        {service.title}
+                      </h3>
 
-                {/* Description */}
-                <p className="text-white/80 leading-relaxed text-base group-hover:text-white transition-colors duration-300">
-                  {service.description}
-                </p>
+                      <p
+                        className="leading-relaxed text-base transition-colors duration-300"
+                        style={{
+                          color: "#ffffff",
+                          textShadow: "0 1.5px 10px rgba(0,0,0,0.5)",
+                        }}
+                      >
+                        {service.description}
+                      </p>
 
-                {/* Hover indicator */}
-                <div className="mt-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  <LearnMoreButton />
+                      <div className="mt-6 opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                        <LearnMoreButton />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

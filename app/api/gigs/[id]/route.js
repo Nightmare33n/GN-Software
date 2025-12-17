@@ -92,8 +92,8 @@ export async function PATCH(req, { params }) {
       );
     }
 
-    // Check ownership
-    if (gig.freelancerId.toString() !== user._id.toString()) {
+    // Check ownership unless admin
+    if (user.role !== 'admin' && gig.freelancerId.toString() !== user._id.toString()) {
       return NextResponse.json(
         { error: 'You can only edit your own gigs' },
         { status: 403 }
@@ -178,8 +178,8 @@ export async function DELETE(req, { params }) {
       );
     }
 
-    // Check ownership
-    if (gig.freelancerId.toString() !== user._id.toString()) {
+    // Check ownership unless admin
+    if (user.role !== 'admin' && gig.freelancerId.toString() !== user._id.toString()) {
       return NextResponse.json(
         { error: 'You can only delete your own gigs' },
         { status: 403 }

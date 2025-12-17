@@ -8,6 +8,7 @@ const nextConfig = {
       { protocol: "https", hostname: "images.pexels.com" },
       { protocol: "https", hostname: "cdn.simpleicons.org" },
       { protocol: "https", hostname: "logos-world.net" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
     ],
   },
 };

@@ -6,6 +6,13 @@ import GigCard from "@/components/gigs/GigCard";
 import GigFilters from "@/components/gigs/GigFilters";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import AgencyNavbar from "@/components/AgencyNavbar";
+/*
+// Fallback gigs (comentado porque ahora se gestionan via base de datos)
+const defaultGigs = [
+  { ... }
+];
+*/
 
 export default function BrowseGigsPage() {
   const { data: session } = useSession();
@@ -65,7 +72,7 @@ export default function BrowseGigsPage() {
   };
 
   return (
-    <main className="min-h-screen p-8 pb-24">
+    <><AgencyNavbar /><main className="min-h-screen p-8 pb-24">
       <section className="max-w-7xl mx-auto">
         {/* Browse Gigs Page START */}
 
@@ -93,8 +100,7 @@ export default function BrowseGigsPage() {
             <GigFilters
               onFilterChange={handleFilterChange}
               initialCategory={filters.category}
-              initialSearch={filters.search}
-            />
+              initialSearch={filters.search} />
           </div>
 
           <div className="form-control">
@@ -149,9 +155,7 @@ export default function BrowseGigsPage() {
                 <div className="join">
                   <button
                     className="join-item btn"
-                    onClick={() =>
-                      setPagination({ ...pagination, page: pagination.page - 1 })
-                    }
+                    onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
                     disabled={pagination.page === 1}
                   >
                     «
@@ -161,9 +165,7 @@ export default function BrowseGigsPage() {
                   </button>
                   <button
                     className="join-item btn"
-                    onClick={() =>
-                      setPagination({ ...pagination, page: pagination.page + 1 })
-                    }
+                    onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
                     disabled={pagination.page === pagination.pages}
                   >
                     »
@@ -173,16 +175,13 @@ export default function BrowseGigsPage() {
             )}
           </>
         ) : (
-          <div className="text-center py-16">
-            <p className="text-xl text-base-content/60">No gigs found</p>
-            <p className="text-sm text-base-content/40 mt-2">
-              Try adjusting your filters or search query
-            </p>
-          </div>
+          <p className="text-sm text-base-content/60 mb-4">
+            No hay gigs disponibles en este momento. Usa el panel de admin para agregarlos.
+          </p>
         )}
 
         {/* Browse Gigs Page END */}
       </section>
-    </main>
+    </main></>
   );
 }

@@ -13,8 +13,36 @@ progress::-webkit-progress-value {
 }
 
 @layer base {
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #94a3b8;
+    --primary: #06b6d4;
+    --secondary: #10b981;
+    --card: #0f172a;
+    --border: #1f2937;
+    --scroll-track: #000000;
+    --scroll-thumb: #06b6d4;
+    --scroll-thumb-hover: #10b981;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f7f9fc;
+    --text: #0f172a;
+    --muted: #475569;
+    --primary: #0ea5e9;
+    --secondary: #22c55e;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --scroll-track: #e2e8f0;
+    --scroll-thumb: #0ea5e9;
+    --scroll-thumb-hover: #22c55e;
+  }
+
   body {
-    @apply bg-black text-white antialiased;
+    @apply antialiased;
+    background: var(--bg);
+    color: var(--text);
   }
 
   .btn-gradient {
@@ -24,22 +52,22 @@ progress::-webkit-progress-value {
     @apply !capitalize;
   }
 
-  /* Custom scrollbar for dark theme */
+  /* Custom scrollbar respecting theme */
   ::-webkit-scrollbar {
     width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: var(--scroll-track);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #06b6d4;
+    background: var(--scroll-thumb);
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #10b981;
+    background: var(--scroll-thumb-hover);
   }
 }
 

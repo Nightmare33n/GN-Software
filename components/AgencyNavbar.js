@@ -1,17 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ButtonSignin from "@/components/ButtonSignin";
 
+const SunIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    className="h-5 w-5"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2.5v2.5M12 19v2.5M4.5 12H2M22 12h-2.5M5.6 5.6 4 4M20 20l-1.6-1.6M18.4 5.6 20 4M4 20l1.6-1.6" />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    className="h-5 w-5"
+  >
+    <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8 8 0 1 0 11 11Z" />
+  </svg>
+);
+
 const navLinks = [
   { href: "#services", label: "Services" },
+  { href: "/gigs", label: "Gigs" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" }
 ];
 
 const AgencyNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const stored = typeof window !== "undefined" ? localStorage.getItem("gn-theme") : null;
+    const prefersLight = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    const nextTheme = stored || (prefersLight ? "light" : "dark");
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("gn-theme", next);
+    }
+    document.documentElement.setAttribute("data-theme", next);
+  };
 
   return (
     <>
@@ -43,7 +89,14 @@ const AgencyNavbar = () => {
             </div>
 
             {/* CTA Button */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-3">
+              <button
+                onClick={toggleTheme}
+                className="btn btn-ghost btn-circle border border-white/10 hover:border-white/30 transition"
+                aria-label="Toggle theme"
+              >
+                {theme === "light" ? <SunIcon /> : <MoonIcon />}
+              </button>
               <ButtonSignin extraStyle="!px-5 !py-2 !rounded-full !border !border-white/15 !bg-white/5 hover:!bg-white/10 hover:!border-white/25" />
             </div>
 
@@ -92,6 +145,15 @@ const AgencyNavbar = () => {
         {isOpen && (
           <div className="md:hidden bg-gn-dark border-t border-neutral/10">
             <div className="px-4 py-4 space-y-3">
+              <div className="flex justify-end pb-2">
+                <button
+                  onClick={toggleTheme}
+                  className="btn btn-ghost btn-sm border border-white/10 hover:border-white/30 w-full"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "light" ? "Switch to dark" : "Switch to light"}
+                </button>
+              </div>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

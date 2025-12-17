@@ -5,6 +5,7 @@ import ButtonAccount from "@/components/ButtonAccount";
 import Link from "next/link";
 import ConversationList from "@/components/chat/ConversationList";
 import ChatWindow from "@/components/chat/ChatWindow";
+import AdminFab from "@/components/AdminFab";
 
 export default function FreelancerDashboard() {
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -70,6 +71,7 @@ export default function FreelancerDashboard() {
         </div>
         {/* Freelancer Dashboard END */}
       </section>
+      <AdminFab />
     </main>
   );
 }

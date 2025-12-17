@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useSocket } from "@/libs/socket";
 import MessageBubble from "./MessageBubble";
+import CustomOfferForm from "@/components/offers/CustomOfferForm";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
@@ -16,6 +17,7 @@ export default function ChatWindow({ conversation }) {
   const [messageInput, setMessageInput] = useState("");
   const [sending, setSending] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [showOfferForm, setShowOfferForm] = useState(false);
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
@@ -59,9 +61,23 @@ export default function ChatWindow({ conversation }) {
       }
     });
 
+    socket.on('offer_accepted', ({ offerId, orderId }) => {
+      // Refresh messages to show updated offer status
+      fetchMessages();
+      toast.success('Custom offer accepted!');
+    });
+
+    socket.on('offer_rejected', ({ offerId }) => {
+      // Refresh messages to show updated offer status
+      fetchMessages();
+      toast.info('Custom offer rejected');
+    });
+
     return () => {
       socket.off('new_message');
       socket.off('user_typing');
+      socket.off('offer_accepted');
+      socket.off('offer_rejected');
     };
   }, [socket, conversation?._id, session?.user?.id]);
 
@@ -156,6 +172,14 @@ export default function ChatWindow({ conversation }) {
     }, 1000);
   };
 
+  const handleOfferSuccess = (offer) => {
+    setShowOfferForm(false);
+    toast.success('Custom offer sent!');
+    // Messages will be updated via socket event
+  };
+
+  const isFreelancer = session?.user?.role === 'freelancer' || session?.user?.role === 'admin';
+
   if (!conversation) {
     return (
       <div className="flex items-center justify-center h-full text-base-content/60">
@@ -173,33 +197,48 @@ export default function ChatWindow({ conversation }) {
 
       {/* Header */}
       <div className="p-4 border-b border-base-300 bg-base-200">
-        <div className="flex items-center gap-3">
-          <div className="avatar">
-            <div className="w-10 h-10 rounded-full">
-              {otherParticipant?.image ? (
-                <Image
-                  src={otherParticipant.image}
-                  alt={otherParticipant.name}
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <div className="bg-primary text-primary-content flex items-center justify-center">
-                  {otherParticipant?.name?.charAt(0) || "?"}
-                </div>
-              )}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="avatar">
+              <div className="w-10 h-10 rounded-full">
+                {otherParticipant?.image ? (
+                  <Image
+                    src={otherParticipant.image}
+                    alt={otherParticipant.name}
+                    width={40}
+                    height={40}
+                  />
+                ) : (
+                  <div className="bg-primary text-primary-content flex items-center justify-center">
+                    {otherParticipant?.name?.charAt(0) || "?"}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold">{otherParticipant?.name}</h3>
+              <p className="text-xs text-base-content/60">
+                {otherParticipant?.onlineStatus ? (
+                  <span className="text-success">● Online</span>
+                ) : (
+                  <span>Offline</span>
+                )}
+              </p>
             </div>
           </div>
-          <div>
-            <h3 className="font-semibold">{otherParticipant?.name}</h3>
-            <p className="text-xs text-base-content/60">
-              {otherParticipant?.onlineStatus ? (
-                <span className="text-success">● Online</span>
-              ) : (
-                <span>Offline</span>
-              )}
-            </p>
-          </div>
+
+          {/* Create Offer Button (Freelancers only) */}
+          {isFreelancer && (
+            <button
+              onClick={() => setShowOfferForm(true)}
+              className="btn btn-primary btn-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Create Offer
+            </button>
+          )}
         </div>
       </div>
 
@@ -258,6 +297,16 @@ export default function ChatWindow({ conversation }) {
       </div>
 
       {/* ChatWindow END */}
+
+      {/* Custom Offer Form Modal */}
+      {showOfferForm && (
+        <CustomOfferForm
+          conversation={conversation}
+          clientId={otherParticipant._id}
+          onClose={() => setShowOfferForm(false)}
+          onSuccess={handleOfferSuccess}
+        />
+      )}
     </div>
   );
 }

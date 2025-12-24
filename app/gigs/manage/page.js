@@ -120,7 +120,7 @@ export default function ManageGigsPage() {
           {gigs.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-xl text-base-content/60 mb-4">
-                You haven't created any gigs yet
+                You haven&apos;t created any gigs yet
               </p>
               <Link href="/gigs/create" className="btn btn-primary">
                 Create Your First Gig

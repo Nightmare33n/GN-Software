@@ -66,7 +66,7 @@ export default function PackageSelector({ packages, onOrder, loading = false }) 
           {/* Features */}
           {currentPackage.features && currentPackage.features.length > 0 && (
             <div className="space-y-2 mb-6">
-              <p className="font-semibold text-sm">What's included:</p>
+              <p className="font-semibold text-sm">What&apos;s included:</p>
               <ul className="space-y-2">
                 {currentPackage.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
